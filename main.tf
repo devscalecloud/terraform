@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"
+      version = "> 1.6.0"
     }
   }
 }
@@ -13,11 +13,11 @@ provider "aws" {
 
 # Look up the existing VPC and subnet (they are NOT created by Terraform)
 data "aws_vpc" "main" {
-  id = "vpc-xxxxxxxxxxxxxxxxx"
+  id = "vpc-06246eb6b0e21e813"
 }
 
 data "aws_subnet" "main" {
-  id = "subnet-xxxxxxxxxxxxxxxxx"
+  id = "subnet-0f62723b0fb0069ec"
 }
 
 resource "aws_security_group" "ec2_sg" {
@@ -31,6 +31,14 @@ resource "aws_security_group" "ec2_sg" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = var.allowed_ssh_cidrs
+  }
+
+  ingress {
+    description = "HTTP"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
