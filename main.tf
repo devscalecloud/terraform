@@ -1,4 +1,6 @@
 terraform {
+  required_version = "> 1.6.0"
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -13,24 +15,24 @@ provider "aws" {
 
 # Look up the existing VPC and subnet (they are NOT created by Terraform)
 data "aws_vpc" "main" {
-  id = "vpc-xxxxxxxxxxxxxxxxx"
+  id = "vpc-06246eb6b0e21e813"
 }
 
 data "aws_subnet" "main" {
-  id = "subnet-xxxxxxxxxxxxxxxxx"
+  id = "subnet-0f62723b0fb0069ec"
 }
 
 resource "aws_security_group" "ec2_sg" {
   name        = "${var.project_name}-sg"
-  description = "Allow SSH access"
+  description = "Allow inbound application traffic on port 8080"
   vpc_id      = data.aws_vpc.main.id
 
   ingress {
-    description = "SSH"
-    from_port   = 22
-    to_port     = 22
+    description = "allow inbound application traffic on port 8080"
+    from_port   = 8080
+    to_port     = 8080
     protocol    = "tcp"
-    cidr_blocks = var.allowed_ssh_cidrs
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
