@@ -1,7 +1,7 @@
 variable "project_name" {
   description = "Name prefix for the EC2 resources"
   type        = string
-  default     = "<your_ec2_project_name>"
+  default     = "chimezie"
 }
 
 variable "instance_type" {
